@@ -1,6 +1,7 @@
 import os
 import json
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -100,6 +101,10 @@ def retrieve_assessments(context: ExtractedContext):
     for s, t in scored[:10]:
         top_tests.append(t)
     return top_tests
+
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/docs")
 
 @app.get("/health")
 async def health():
