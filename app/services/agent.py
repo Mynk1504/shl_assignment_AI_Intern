@@ -89,7 +89,7 @@ You MUST ALWAYS return valid JSON matching the schema provided.
             history_str += f"{msg.role.upper()}: {msg.content}\n"
 
         contents = [
-            types.Content(role="user", parts=[types.Part.from_text(f"Here is the conversation history:\n{history_str}\n\nRespond following all system instructions.")])
+            types.Content(role="user", parts=[types.Part.from_text(text=f"Here is the conversation history:\n{history_str}\n\nRespond following all system instructions.")])
         ]
 
         try:
