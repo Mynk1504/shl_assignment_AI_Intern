@@ -116,10 +116,12 @@ You MUST ALWAYS return valid JSON matching the schema provided.
             response_json = json.loads(text.strip())
             return ChatResponse(**response_json)
         except Exception as e:
-            logger.error(f"Error calling Gemini API: {e}")
+            import traceback
+            error_msg = f"{str(e)} | Trace: {traceback.format_exc()}"
+            logger.error(f"Error calling Gemini API: {error_msg}")
             # Provide a safe fallback instead of throwing a 500 error
             return ChatResponse(
-                reply="I'm sorry, I'm having trouble analyzing that request right now. Could you please rephrase?",
+                reply=f"API Error: {str(e)}",
                 recommendations=[],
                 end_of_conversation=False
             )
