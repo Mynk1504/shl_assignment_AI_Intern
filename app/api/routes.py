@@ -18,5 +18,7 @@ def chat_endpoint(
         response = agent_service.generate_response(request)
         return response
     except Exception as e:
-        logger.error(f"Failed to generate response: {e}")
-        raise HTTPException(status_code=500, detail="Internal server error while processing chat.")
+        import traceback
+        error_details = f"{str(e)} | Traceback: {traceback.format_exc()}"
+        logger.error(error_details)
+        raise HTTPException(status_code=500, detail=error_details)
