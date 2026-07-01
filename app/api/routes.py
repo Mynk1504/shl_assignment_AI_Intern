@@ -22,3 +22,15 @@ def chat_endpoint(
         error_details = f"{str(e)} | Traceback: {traceback.format_exc()}"
         logger.error(error_details)
         raise HTTPException(status_code=500, detail=error_details)
+
+@router.get("/models")
+def list_models(agent_service: AgentService = Depends(get_agent_service)):
+    try:
+        # Paginator object returned by models.list()
+        models_iter = agent_service.client.models.list()
+        model_names = [m.name for m in models_iter]
+        return {"models": model_names}
+    except Exception as e:
+        import traceback
+        error_details = f"{str(e)} | Traceback: {traceback.format_exc()}"
+        raise HTTPException(status_code=500, detail=error_details)
