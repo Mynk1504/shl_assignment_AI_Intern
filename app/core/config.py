@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     
     # LLM Settings
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL_NAME: str = "gemini-1.5-pro"
+    GEMINI_MODEL_NAME: str = "gemini-2.5-flash"
     
     class Config:
         case_sensitive = True
