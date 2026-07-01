@@ -82,10 +82,15 @@ You MUST ALWAYS return valid JSON matching the schema provided.
 
     def generate_response(self, request: ChatRequest) -> ChatResponse:
         logger.info(f"Generating response for {len(request.messages)} messages.")
-        contents = []
+        
+        # Safely compile all history into a single string to avoid Gemini SDK strict alternating role errors
+        history_str = ""
         for msg in request.messages:
-            role = "model" if msg.role.lower() in ["agent", "assistant", "model"] else "user"
-            contents.append(types.Content(role=role, parts=[types.Part.from_text(msg.content)]))
+            history_str += f"{msg.role.upper()}: {msg.content}\n"
+
+        contents = [
+            types.Content(role="user", parts=[types.Part.from_text(f"Here is the conversation history:\n{history_str}\n\nRespond following all system instructions.")])
+        ]
 
         try:
             response = self.client.models.generate_content(
@@ -98,8 +103,23 @@ You MUST ALWAYS return valid JSON matching the schema provided.
                     temperature=0.2
                 )
             )
-            response_json = json.loads(response.text)
+            
+            # Clean possible markdown formatting from the response
+            text = response.text.strip()
+            if text.startswith("```json"):
+                text = text[7:]
+            if text.startswith("```"):
+                text = text[3:]
+            if text.endswith("```"):
+                text = text[:-3]
+                
+            response_json = json.loads(text.strip())
             return ChatResponse(**response_json)
         except Exception as e:
             logger.error(f"Error calling Gemini API: {e}")
-            raise
+            # Provide a safe fallback instead of throwing a 500 error
+            return ChatResponse(
+                reply="I'm sorry, I'm having trouble analyzing that request right now. Could you please rephrase?",
+                recommendations=[],
+                end_of_conversation=False
+            )
