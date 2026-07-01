@@ -39,17 +39,18 @@ def root():
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #FFFFFF;
-                color: #2A2A2A;
+                background-color: #F7F9FA;
+                color: #4A4A4A;
             }
             .header {
                 padding: 20px 40px;
-                border-bottom: 1px solid #EAEAEA;
+                background-color: #FFFFFF;
+                border-bottom: 2px solid #00965E;
             }
             .logo {
                 font-size: 36px;
                 font-weight: bold;
-                color: #121037; /* SHL Deep Blue */
+                color: #4A4A4A;
                 position: relative;
                 display: inline-block;
                 letter-spacing: -1px;
@@ -60,7 +61,7 @@ def root():
                 left: 5px;
                 width: 35px;
                 height: 15px;
-                border: 5px solid #E5005A; /* SHL Magenta */
+                border: 5px solid #00965E;
                 border-bottom: none;
                 border-radius: 40px 40px 0 0;
             }
@@ -70,7 +71,7 @@ def root():
                 padding: 0 40px;
             }
             h1 {
-                color: #121037;
+                color: #00965E;
                 font-size: 32px;
                 margin-bottom: 20px;
             }
@@ -81,7 +82,7 @@ def root():
             }
             .btn {
                 display: inline-block;
-                background-color: #E5005A;
+                background-color: #00965E;
                 color: white;
                 padding: 12px 24px;
                 text-decoration: none;
@@ -89,14 +90,15 @@ def root():
                 border-radius: 4px;
             }
             .btn:hover {
-                background-color: #C0004A;
+                background-color: #007B4D;
             }
             .code {
-                background-color: #F7F7F7;
+                background-color: #E8EAED;
                 padding: 15px;
                 font-family: monospace;
-                border-left: 4px solid #00A3E0; /* SHL Light Blue */
+                border-left: 4px solid #00965E;
                 margin-bottom: 30px;
+                color: #333333;
             }
         </style>
     </head>
