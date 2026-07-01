@@ -34,153 +34,147 @@ def root():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SHL Assessment AI API</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <style>
             :root {
-                --bg-dark: #0f172a;
-                --glass-bg: rgba(255, 255, 255, 0.03);
-                --glass-border: rgba(255, 255, 255, 0.08);
-                --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-                --text-main: #f8fafc;
-                --text-muted: #94a3b8;
+                --primary: #20BEFF;
+                --text-dark: #202124;
+                --text-secondary: #5F6368;
+                --bg-light: #F8F9FA;
+                --border-color: #DADCE0;
             }
             body {
                 margin: 0;
                 padding: 0;
-                font-family: 'Inter', sans-serif;
-                background-color: var(--bg-dark);
-                color: var(--text-main);
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                background-color: var(--bg-light);
+                color: var(--text-dark);
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
                 align-items: center;
-                height: 100vh;
-                overflow: hidden;
-                position: relative;
+                min-height: 100vh;
             }
-            .blob {
-                position: absolute;
-                border-radius: 50%;
-                filter: blur(80px);
-                opacity: 0.4;
-                z-index: 0;
-                animation: float 10s infinite ease-in-out alternate;
+            .header {
+                width: 100%;
+                background-color: white;
+                border-bottom: 1px solid var(--border-color);
+                padding: 16px 24px;
+                box-sizing: border-box;
+                display: flex;
+                align-items: center;
             }
-            .blob-1 {
-                width: 400px;
-                height: 400px;
-                background: #3b82f6;
-                top: -100px;
-                left: -100px;
+            .header-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--text-dark);
+                margin: 0;
             }
-            .blob-2 {
-                width: 500px;
-                height: 500px;
-                background: #8b5cf6;
-                bottom: -150px;
-                right: -100px;
-                animation-delay: -5s;
+            .content-wrapper {
+                max-width: 800px;
+                width: 100%;
+                padding: 40px 24px;
+                box-sizing: border-box;
             }
-            @keyframes float {
-                0% { transform: translate(0, 0) scale(1); }
-                100% { transform: translate(50px, 50px) scale(1.1); }
-            }
-            .container {
-                position: relative;
-                z-index: 1;
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
-                border-radius: 24px;
-                padding: 3rem;
-                max-width: 600px;
-                text-align: center;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-                animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            @keyframes fadeUp {
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+            .card {
+                background: white;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 32px;
+                box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             }
             h1 {
-                font-size: 2.5rem;
-                font-weight: 800;
-                margin-bottom: 1rem;
-                background: var(--accent-gradient);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                letter-spacing: -1px;
+                font-size: 28px;
+                font-weight: 700;
+                margin-top: 0;
+                margin-bottom: 12px;
             }
             p {
-                font-size: 1.125rem;
-                color: var(--text-muted);
+                font-size: 15px;
+                color: var(--text-secondary);
                 line-height: 1.6;
-                margin-bottom: 2.5rem;
-                font-weight: 400;
+                margin-bottom: 24px;
+            }
+            .code-block {
+                background-color: #F1F3F4;
+                border-radius: 4px;
+                padding: 16px;
+                font-family: monospace;
+                font-size: 13px;
+                color: var(--text-dark);
+                margin-bottom: 24px;
+                border: 1px solid var(--border-color);
+                overflow-x: auto;
             }
             .btn {
-                display: inline-block;
-                background: var(--accent-gradient);
-                color: white;
-                text-decoration: none;
-                padding: 1rem 2.5rem;
-                font-size: 1.125rem;
-                font-weight: 600;
-                border-radius: 9999px;
-                transition: all 0.3s ease;
-                box-shadow: 0 10px 20px -10px rgba(139, 92, 246, 0.5);
-                position: relative;
-                overflow: hidden;
-            }
-            .btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 15px 25px -10px rgba(139, 92, 246, 0.7);
-            }
-            .btn:active {
-                transform: translateY(1px);
-            }
-            .status-badge {
                 display: inline-flex;
                 align-items: center;
-                gap: 8px;
-                background: rgba(16, 185, 129, 0.1);
-                color: #10b981;
-                padding: 6px 12px;
-                border-radius: 999px;
-                font-size: 0.875rem;
+                justify-content: center;
+                background-color: var(--text-dark);
+                color: white;
+                text-decoration: none;
+                padding: 10px 24px;
+                font-size: 14px;
                 font-weight: 600;
-                margin-bottom: 1.5rem;
-                border: 1px solid rgba(16, 185, 129, 0.2);
+                border-radius: 24px;
+                transition: background-color 0.2s;
             }
-            .pulse {
+            .btn:hover {
+                background-color: #000;
+            }
+            .status-indicator {
+                display: flex;
+                align-items: center;
+                font-size: 13px;
+                color: #137333;
+                font-weight: 500;
+                margin-bottom: 20px;
+            }
+            .status-dot {
                 width: 8px;
                 height: 8px;
-                background-color: #10b981;
+                background-color: #1E8E3E;
                 border-radius: 50%;
-                animation: pulsing 2s infinite;
-            }
-            @keyframes pulsing {
-                0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-                70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-                100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+                margin-right: 8px;
             }
         </style>
     </head>
     <body>
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="container">
-            <div class="status-badge">
-                <div class="pulse"></div>
-                API System Online
+        <div class="header">
+            <h2 class="header-title">SHL Assessment API</h2>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    API Service is Running
+                </div>
+                
+                <h1>Conversational Agent Backend</h1>
+                <p>
+                    This is the backend service for the SHL Assessment conversational agent. 
+                    It exposes a machine-to-machine REST API designed to evaluate candidates through structured dialogue.
+                </p>
+                
+                <p style="font-weight: 500; color: var(--text-dark); margin-bottom: 8px;">Quick Start</p>
+                <div class="code-block">
+POST /chat HTTP/1.1
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "I need a test for a Java developer"
+    }
+  ]
+}
+                </div>
+                
+                <p>To interactively test the endpoints, view the schema definitions, and send mock requests, please visit the Swagger documentation.</p>
+                
+                <a href="/docs" class="btn">Open API Documentation</a>
             </div>
-            <h1>SHL Assessment AI API</h1>
-            <p>Your enterprise-grade conversational agent backend is fully deployed and operational. Experience the power of our structured recommendation engine.</p>
-            <a href="/docs" class="btn">Test API in Swagger UI &rarr;</a>
         </div>
     </body>
     </html>
