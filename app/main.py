@@ -34,129 +34,214 @@ def root():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SHL Assessment AI API</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
         <style>
             :root {
-                --primary: #20BEFF;
-                --text-dark: #202124;
-                --text-secondary: #5F6368;
-                --bg-light: #F8F9FA;
-                --border-color: #DADCE0;
+                --shl-primary: #121037;   /* Deep Blue/Purple */
+                --shl-accent: #E5005A;    /* SHL Magenta */
+                --shl-secondary: #00A3E0; /* SHL Light Blue */
+                --text-dark: #2A2A2A;
+                --text-light: #FFFFFF;
+                --bg-light: #F7F7F7;
             }
             body {
                 margin: 0;
                 padding: 0;
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                font-family: 'Open Sans', sans-serif;
                 background-color: var(--bg-light);
                 color: var(--text-dark);
                 display: flex;
                 flex-direction: column;
-                align-items: center;
                 min-height: 100vh;
             }
             .header {
                 width: 100%;
-                background-color: white;
-                border-bottom: 1px solid var(--border-color);
-                padding: 16px 24px;
+                background-color: var(--text-light);
+                padding: 20px 40px;
                 box-sizing: border-box;
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             }
-            .header-title {
+            .logo-container {
+                display: flex;
+                align-items: center;
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 800;
+                font-size: 32px;
+                color: var(--shl-primary);
+                letter-spacing: -1px;
+                position: relative;
+            }
+            .logo-arc {
+                position: absolute;
+                top: -8px;
+                left: 10px;
+                width: 30px;
+                height: 15px;
+                border: 4px solid var(--shl-accent);
+                border-bottom: none;
+                border-radius: 30px 30px 0 0;
+            }
+            .hero-section {
+                background-color: var(--shl-primary);
+                color: var(--text-light);
+                padding: 80px 40px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+            .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, rgba(229,0,90,0.2) 0%, rgba(0,163,224,0.2) 100%);
+                z-index: 1;
+            }
+            .hero-content {
+                position: relative;
+                z-index: 2;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 42px;
+                font-weight: 800;
+                margin-top: 0;
+                margin-bottom: 20px;
+                line-height: 1.2;
+            }
+            p {
                 font-size: 18px;
-                font-weight: 600;
-                color: var(--text-dark);
-                margin: 0;
+                line-height: 1.6;
+                margin-bottom: 30px;
+                opacity: 0.9;
             }
             .content-wrapper {
-                max-width: 800px;
+                max-width: 1000px;
                 width: 100%;
-                padding: 40px 24px;
+                padding: 60px 40px;
                 box-sizing: border-box;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
             }
             .card {
                 background: white;
-                border: 1px solid var(--border-color);
-                border-radius: 8px;
-                padding: 32px;
-                box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+                border-top: 4px solid var(--shl-accent);
+                border-radius: 0 0 8px 8px;
+                padding: 40px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             }
-            h1 {
-                font-size: 28px;
-                font-weight: 700;
+            .card h2 {
+                font-family: 'Montserrat', sans-serif;
+                color: var(--shl-primary);
                 margin-top: 0;
-                margin-bottom: 12px;
+                font-size: 24px;
             }
-            p {
+            .card p {
                 font-size: 15px;
-                color: var(--text-secondary);
-                line-height: 1.6;
-                margin-bottom: 24px;
+                color: var(--text-dark);
+                opacity: 0.8;
             }
             .code-block {
-                background-color: #F1F3F4;
-                border-radius: 4px;
+                background-color: #F4F4F4;
+                border-left: 4px solid var(--shl-secondary);
                 padding: 16px;
                 font-family: monospace;
-                font-size: 13px;
+                font-size: 14px;
                 color: var(--text-dark);
                 margin-bottom: 24px;
-                border: 1px solid var(--border-color);
                 overflow-x: auto;
             }
             .btn {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                background-color: var(--text-dark);
+                background-color: var(--shl-accent);
                 color: white;
                 text-decoration: none;
-                padding: 10px 24px;
-                font-size: 14px;
+                padding: 14px 32px;
+                font-size: 16px;
                 font-weight: 600;
-                border-radius: 24px;
-                transition: background-color 0.2s;
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+                border: none;
+                cursor: pointer;
             }
             .btn:hover {
-                background-color: #000;
+                background-color: #C0004A;
             }
-            .status-indicator {
-                display: flex;
+            .btn-outline {
+                background-color: transparent;
+                border: 2px solid var(--text-light);
+                color: var(--text-light);
+            }
+            .btn-outline:hover {
+                background-color: var(--text-light);
+                color: var(--shl-primary);
+            }
+            .status {
+                display: inline-flex;
                 align-items: center;
-                font-size: 13px;
-                color: #137333;
-                font-weight: 500;
+                gap: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                color: #2e7d32;
+                background: #e8f5e9;
+                padding: 8px 16px;
+                border-radius: 20px;
                 margin-bottom: 20px;
             }
             .status-dot {
                 width: 8px;
                 height: 8px;
-                background-color: #1E8E3E;
+                background-color: #4caf50;
                 border-radius: 50%;
-                margin-right: 8px;
+            }
+            @media (max-width: 768px) {
+                .content-wrapper {
+                    grid-template-columns: 1fr;
+                }
             }
         </style>
     </head>
     <body>
         <div class="header">
-            <h2 class="header-title">SHL Assessment API</h2>
+            <div class="logo-container">
+                <div class="logo-arc"></div>
+                SHL
+            </div>
+            <a href="/docs" class="btn" style="padding: 10px 24px; font-size: 14px;">Developer Portal</a>
+        </div>
+        
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="status">
+                    <div class="status-dot"></div>
+                    Assessment API Online
+                </div>
+                <h1>Talent Acquisition Intelligence</h1>
+                <p>Welcome to the SHL Conversational Agent Backend. Integrate our industry-leading machine learning assessments directly into your hiring workflows.</p>
+                <a href="/docs" class="btn btn-outline">Explore API Documentation</a>
+            </div>
         </div>
         
         <div class="content-wrapper">
             <div class="card">
-                <div class="status-indicator">
-                    <div class="status-dot"></div>
-                    API Service is Running
-                </div>
-                
-                <h1>Conversational Agent Backend</h1>
+                <h2>API Integration</h2>
                 <p>
-                    This is the backend service for the SHL Assessment conversational agent. 
-                    It exposes a machine-to-machine REST API designed to evaluate candidates through structured dialogue.
+                    Evaluate candidates dynamically through our REST API. Send conversation histories and receive structured competency feedback in real-time.
                 </p>
                 
-                <p style="font-weight: 500; color: var(--text-dark); margin-bottom: 8px;">Quick Start</p>
+                <p style="font-weight: 600; margin-bottom: 8px; margin-top: 24px;">Endpoint Payload Example:</p>
                 <div class="code-block">
 POST /chat HTTP/1.1
 Content-Type: application/json
@@ -170,10 +255,16 @@ Content-Type: application/json
   ]
 }
                 </div>
-                
-                <p>To interactively test the endpoints, view the schema definitions, and send mock requests, please visit the Swagger documentation.</p>
-                
-                <a href="/docs" class="btn">Open API Documentation</a>
+            </div>
+            
+            <div class="card" style="border-top-color: var(--shl-secondary);">
+                <h2>Testing & Validation</h2>
+                <p>
+                    Use the interactive Swagger UI to simulate candidate interactions, review JSON schemas, and test real-time AI responses.
+                </p>
+                <div style="margin-top: 40px;">
+                    <a href="/docs" class="btn">Test Endpoints in /docs</a>
+                </div>
             </div>
         </div>
     </body>
