@@ -123,11 +123,20 @@ You MUST ALWAYS return valid JSON matching the schema provided.
             return ChatResponse(**response_json)
         except Exception as e:
             import traceback
-            error_msg = f"{str(e)} | Trace: {traceback.format_exc()}"
+            from tenacity import RetryError
+            
+            error_details = str(e)
+            if isinstance(e, RetryError):
+                try:
+                    error_details = str(e.last_attempt.exception())
+                except Exception:
+                    pass
+                    
+            error_msg = f"{error_details} | Trace: {traceback.format_exc()}"
             logger.error(f"Error calling Gemini API: {error_msg}")
             # Provide a safe fallback instead of throwing a 500 error
             return ChatResponse(
-                reply=f"API Error: {str(e)}",
+                reply=f"API Error: {error_details}",
                 recommendations=[],
                 end_of_conversation=False
             )
