@@ -128,7 +128,7 @@ Content-Type: application/json<br><br>
             </div>
             
             <p>To interactively test the endpoints, please visit the Developer Documentation page.</p>
-            <a href="/docs" class="btn">Go to /docs to test APIs</a>
+            <a href="/docs" class="btn">Test API</a>
         </div>
     </body>
     </html>
