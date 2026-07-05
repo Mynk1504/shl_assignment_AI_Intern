@@ -1,6 +1,7 @@
 import json
 from google import genai
 from google.genai import types
+from tenacity import retry, wait_exponential, stop_after_attempt
 
 from app.core.config import settings
 from app.core.logger import logger
@@ -61,6 +62,7 @@ Once you have sufficient information:
 - Recommend between 1 and 10 assessments.
 - Choose the most relevant items from the catalog.
 - Prefer balanced shortlists (skills + ability + personality when appropriate).
+- If a user asks for multiple distinct skills (e.g., AWS and Docker, Word and Excel), ensure you recommend ALL catalog items that match these skills to maximize coverage.
 
 3️⃣ REFINE, DO NOT RESET
 If the user adds or changes constraints mid-conversation:
@@ -92,17 +94,21 @@ You MUST ALWAYS return valid JSON matching the schema provided.
             types.Content(role="user", parts=[types.Part.from_text(text=f"Here is the conversation history:\n{history_str}\n\nRespond following all system instructions.")])
         ]
 
-        try:
-            response = self.client.models.generate_content(
+        @retry(wait=wait_exponential(multiplier=1, min=2, max=60), stop=stop_after_attempt(5))
+        def _call_gemini():
+            return self.client.models.generate_content(
                 model=settings.GEMINI_MODEL_NAME,
                 contents=contents,
                 config=types.GenerateContentConfig(
                     system_instruction=self.system_instruction,
                     response_mime_type="application/json",
                     response_schema=ChatResponse,
-                    temperature=0.2
+                    temperature=0.0
                 )
             )
+
+        try:
+            response = _call_gemini()
             
             # Clean possible markdown formatting from the response
             text = response.text.strip()
