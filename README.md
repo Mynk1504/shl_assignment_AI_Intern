@@ -8,7 +8,7 @@ This project is built using Domain-Driven Design (DDD) principles for scalabilit
 - **`app/api`**: FastAPI HTTP routes and dependency injection.
 - **`app/core`**: Configuration management using `pydantic-settings` and structured logging.
 - **`app/models`**: Strict Pydantic schemas validating input/output.
-- **`app/services`**: Core business logic, integrating with the Gemini API for LLM responses.
+- **`app/services`**: Core business logic, integrating with the Gemini API for LLM responses with `tenacity` exponential backoff.
 
 ## Getting Started (Docker)
 
@@ -31,7 +31,6 @@ The easiest way to run the project is via Docker Compose:
 1. Create a virtual environment and install dependencies:
    ```bash
    pip install -r requirements.txt
-   pip install -r requirements-dev.txt
    ```
 2. Set your environment variables (e.g. `GEMINI_API_KEY`).
 3. Run the application:
@@ -39,13 +38,14 @@ The easiest way to run the project is via Docker Compose:
    uvicorn app.main:app --reload
    ```
 
-## Running Tests
+## Evaluating Precision & Recall
 
-To verify the endpoints are working properly, you can run the test suite:
+To verify the agent's performance against expected conversation traces, you can run the evaluation script:
 ```bash
-pytest
+python scripts/evaluate_metrics.py
 ```
+*(Note: Requires `GEMINI_API_KEY` to be set in your environment variables. Free tier quota limits may apply).*
 
 ## Data Management
 
-The agent's catalog dataset is generated from sample conversational markdown files. To re-generate or update the catalog, drop the `.md` files in a source directory and modify `scripts/data_parser.py` accordingly.
+The agent uses a static, pre-compiled JSON catalog of SHL Individual Test Solutions located at `data/catalog.json`. This ensures fast, reliable, and consistent LLM context injection without the need for runtime web scraping or complex vector databases.
